@@ -1,14 +1,8 @@
-
 import requests
 from bs4 import BeautifulSoup
 import urllib.parse
-import time
-import random
 
 def get_naver_related_keywords(keyword, max_count=10):
-    """
-    네이버 자동완성/연관 검색어 수집
-    """
     url = f"https://search.naver.com/search.naver?query={urllib.parse.quote(keyword)}"
     headers = {
         "User-Agent": (
@@ -23,8 +17,8 @@ def get_naver_related_keywords(keyword, max_count=10):
 
     related_keywords = []
 
-    for a in soup.select("ul.related_keyword ul li a"):
-        related = a.get_text().strip()
+    for div in soup.select("ul.lst_related_srch li div.tit"):
+        related = div.get_text(strip=True)
         if related and related not in related_keywords:
             related_keywords.append(related)
         if len(related_keywords) >= max_count:

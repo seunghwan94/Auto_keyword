@@ -1,12 +1,14 @@
-
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
+from utils.other_path import resolve_path
 
 def get_gspread_client():
     scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/spreadsheets",
              "https://www.googleapis.com/auth/drive.file", "https://www.googleapis.com/auth/drive"]
-    credentials = ServiceAccountCredentials.from_json_keyfile_name(
-        "config/GoogleSheets.json", scope)
+    
+    json_path = resolve_path("utils/config/google_sheets.json")
+    credentials = ServiceAccountCredentials.from_json_keyfile_name(json_path, scope)
+    
     return gspread.authorize(credentials)
 
 def get_user_info(email, sheet_url="https://docs.google.com/spreadsheets/d/1Bcc8Lf7lANn9DxVM-t6Knx6OEAWDpNLdRUl8d1ZttgE/edit#gid=0", sheet_name="AutoProgram"):
